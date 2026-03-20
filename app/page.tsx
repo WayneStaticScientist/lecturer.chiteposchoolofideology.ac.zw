@@ -57,7 +57,7 @@ const App = () => {
     },
     {
       id: 2,
-      name: "Part Governancy",
+      name: "Party Governancy",
       code: "CS301",
       students: 120,
       progress: 40,
@@ -73,7 +73,7 @@ const App = () => {
 
   const upcomingClasses = [
     { time: "09:00 AM", subject: "National Ideology", room: "Hall A1" },
-    { time: "11:30 AM", subject: "Part Governancy", room: "Lab 04" },
+    { time: "11:30 AM", subject: "Party Governancy", room: "Lab 04" },
     {
       time: "02:00 PM",
       subject: "National Defense And Security Policy",
