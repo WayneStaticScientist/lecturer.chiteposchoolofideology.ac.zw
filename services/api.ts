@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: '/api/v1',
+  baseURL: process.env.NEXT_PUBLIC_API_URL || '/api/v1',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -15,7 +15,7 @@ api.interceptors.response.use(
     if (error.response?.status === 401 && !originalRequest._retry && originalRequest?.url?.indexOf('/auth/login') < 0) {
       originalRequest._retry = true;
       try {
-        await axios.post('/api/v1/auth/refresh', {}, { withCredentials: true });
+        await api.post('/auth/refresh', {});
         return api(originalRequest);
       } catch (err) {
         if (typeof window !== 'undefined') {
