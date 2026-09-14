@@ -13,6 +13,8 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { logout } from "@/services/api";
 
 export default function SideBar({
   isSidebarExpanded,
@@ -26,13 +28,24 @@ export default function SideBar({
   toggleMobileMenu: () => void;
 }) {
   const navItems = [
-    { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
-    { id: "courses", label: "My Courses", icon: BookOpen },
-    { id: "students", label: "Students", icon: Users },
-    { id: "schedule", label: "Schedule", icon: Calendar },
-    { id: "settings", label: "Settings", icon: Settings },
+    { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, href: "/" },
+    { id: "courses", label: "My Courses", icon: BookOpen, href: "/courses" },
+    { id: "students", label: "Students", icon: Users, href: "/students" },
+    { id: "schedule", label: "Schedule", icon: Calendar, href: "/schedules" },
+    { id: "settings", label: "Settings", icon: Settings, href: "/settings" },
   ];
   const [activeTab, setActiveTab] = useState("dashboard");
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      window.location.href = "/login";
+    } catch (error) {
+      console.error("Logout failed", error);
+      window.location.href = "/login";
+    }
+  };
   return (
     <React.Fragment>
       <aside
@@ -60,7 +73,10 @@ export default function SideBar({
           {navItems.map((item) => (
             <button
               key={item.id}
-              onClick={() => setActiveTab(item.id)}
+              onClick={() => {
+                setActiveTab(item.id);
+                router.push(item.href);
+              }}
               className={`w-full flex items-center gap-4 p-3 rounded-xl transition-colors ${
                 activeTab === item.id
                   ? "bg-emerald-50 text-emerald-700"
@@ -86,7 +102,7 @@ export default function SideBar({
             {isSidebarExpanded ? <ChevronLeft size={22} /> : <Menu size={22} />}
             {isSidebarExpanded && <span className="font-medium">Collapse</span>}
           </button>
-          <button className="w-full flex items-center gap-4 p-3 mt-2 text-rose-500 hover:bg-rose-50 rounded-xl transition-colors">
+          <button onClick={handleLogout} className="w-full flex items-center gap-4 p-3 mt-2 text-rose-500 hover:bg-rose-50 rounded-xl transition-colors">
             <LogOut size={22} />
             {isSidebarExpanded && <span className="font-medium">Logout</span>}
           </button>
@@ -120,6 +136,7 @@ export default function SideBar({
                   key={item.id}
                   onClick={() => {
                     setActiveTab(item.id);
+                    router.push(item.href);
                     toggleMobileMenu();
                   }}
                   className={`w-full flex items-center gap-4 p-4 rounded-xl transition-colors ${
@@ -134,7 +151,7 @@ export default function SideBar({
               ))}
             </nav>
             <div className="p-6 border-t">
-              <button className="w-full flex items-center gap-4 p-4 text-rose-500 hover:bg-rose-50 rounded-xl transition-colors">
+              <button onClick={handleLogout} className="w-full flex items-center gap-4 p-4 text-rose-500 hover:bg-rose-50 rounded-xl transition-colors">
                 <LogOut size={22} />
                 <span className="font-medium text-lg">Logout</span>
               </button>

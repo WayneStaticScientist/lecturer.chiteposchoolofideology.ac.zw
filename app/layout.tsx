@@ -1,16 +1,12 @@
-import clsx from "clsx";
 import "@/styles/globals.css";
-import { Providers } from "./providers";
 import { Metadata, Viewport } from "next";
-import { siteConfig } from "@/config/site";
-import { fontSans } from "@/config/fonts";
 
 export const metadata: Metadata = {
   title: {
-    default: "Chitepo School of Ideology",
-    template: `%s - Chitepo School of Ideology`,
+    default: "Lecturer Portal - Chitepo School of Ideology",
+    template: `%s - Lecturer Portal`,
   },
-  description: siteConfig.description,
+  description: "Lecturer portal for Chitepo School of Ideology",
   icons: {
     icon: "/favicon.ico",
   },
@@ -19,7 +15,6 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "white" },
-    { media: "(prefers-color-scheme: dark)", color: "black" },
   ],
 };
 
@@ -29,17 +24,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html suppressHydrationWarning lang="en">
+    <html lang="en" className="light">
       <head />
-      <body
-        className={clsx(
-          "min-h-screen text-foreground bg-background font-sans antialiased",
-          fontSans.variable,
-        )}
-      >
-        <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
-          {children}
-        </Providers>
+      <body className="min-h-screen bg-gray-50 font-sans antialiased text-gray-900">
+        {children}
       </body>
     </html>
   );
