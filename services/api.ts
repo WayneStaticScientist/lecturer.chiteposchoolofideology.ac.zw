@@ -63,6 +63,11 @@ export const getTopicDetails = async (topicId: string) => {
   return response.data;
 };
 
+export const getTopicLecturerOverview = async (topicId: string) => {
+  const response = await api.get(`/topics/${topicId}/lecturer-overview`);
+  return response.data;
+};
+
 export const createLiveSchedule = async (data: any) => {
   const response = await api.post('/live/schedule', data);
   return response.data;
