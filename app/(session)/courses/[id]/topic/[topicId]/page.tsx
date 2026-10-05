@@ -15,6 +15,7 @@ import {
   Plus,
   UploadCloud,
   Users,
+  type LucideIcon,
 } from "lucide-react";
 import { toast } from "react-hot-toast";
 
@@ -467,10 +468,14 @@ export default function LecturerTopicDetailPage() {
           <h2 className="text-xl font-bold text-slate-800">Upload media</h2>
           <form onSubmit={handleUploadMedia} className="mt-6 space-y-4">
             <div>
-              <label className="mb-2 block text-sm font-semibold text-slate-700">
+              <label
+                htmlFor="topic-media-title"
+                className="mb-2 block text-sm font-semibold text-slate-700"
+              >
                 Title
               </label>
               <input
+                id="topic-media-title"
                 required
                 type="text"
                 value={mediaTitle}
@@ -479,10 +484,14 @@ export default function LecturerTopicDetailPage() {
               />
             </div>
             <div>
-              <label className="mb-2 block text-sm font-semibold text-slate-700">
+              <label
+                htmlFor="topic-media-file"
+                className="mb-2 block text-sm font-semibold text-slate-700"
+              >
                 File (PDF, image, video, or audio)
               </label>
               <input
+                id="topic-media-file"
                 required
                 type="file"
                 onChange={(e) => setMediaFile(e.target.files?.[0] || null)}
@@ -512,7 +521,7 @@ function MaterialGroup({
   title: string;
   empty: string;
   items: MediaItem[];
-  icon: React.ComponentType<{ size?: number; className?: string }>;
+  icon: LucideIcon;
   onDelete: (id: string) => void;
 }) {
   if (items.length === 0 && !empty) return null;
