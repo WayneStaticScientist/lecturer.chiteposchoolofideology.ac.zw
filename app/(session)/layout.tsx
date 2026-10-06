@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { Bell, Menu, Search, User } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import LecturerSideBar from "@/components/layouts/lecturer-sidebar";
 import { getLecturerDashboard } from "@/services/api";
@@ -20,6 +20,8 @@ export default function SessionLayout({
     role: string;
   } | null>(null);
   const router = useRouter();
+  const pathname = usePathname();
+  const isLiveRoom = /\/courses\/[^/]+\/live\/[^/]+$/.test(pathname ?? "");
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -63,14 +65,17 @@ export default function SessionLayout({
         />
       )}
 
-      <LecturerSideBar
-        isMobileSidebarOpen={isMobileSidebarOpen}
-        isSidebarExpanded={isSidebarExpanded}
-        setIsMobileSidebarOpen={setIsMobileSidebarOpen}
-        setIsSidebarExpanded={setIsSidebarExpanded}
-      />
+      {!isLiveRoom && (
+        <LecturerSideBar
+          isMobileSidebarOpen={isMobileSidebarOpen}
+          isSidebarExpanded={isSidebarExpanded}
+          setIsMobileSidebarOpen={setIsMobileSidebarOpen}
+          setIsSidebarExpanded={setIsSidebarExpanded}
+        />
+      )}
 
       <main className="relative flex h-full min-w-0 flex-1 flex-col overflow-hidden">
+        {!isLiveRoom && (
         <header className="z-20 flex h-20 flex-shrink-0 items-center justify-between border-b border-slate-200 bg-white px-6 shadow-sm lg:px-10">
           <div className="flex items-center gap-4">
             <button
@@ -121,6 +126,7 @@ export default function SessionLayout({
             </div>
           </div>
         </header>
+        )}
 
         <div className="flex min-h-0 flex-1 flex-col overflow-hidden">{children}</div>
       </main>

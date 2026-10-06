@@ -18,6 +18,12 @@ import {
     Circle,
 } from "lucide-react";
 
+import {
+    studioDockBtn,
+    studioDockLabelAlways,
+    studioDockLabelDesktopOnly,
+} from "./studio-control-bar-classes";
+
 interface StudioControlBarProps {
     isMicEnabled: boolean;
     onToggleMic: () => void;
@@ -70,18 +76,19 @@ export const StudioControlBar: React.FC<StudioControlBarProps> = ({
     onToggleRecording,
 }) => {
     return (
-        <nav 
-            className="h-20 bg-zinc-900/95 border-t border-zinc-800 px-3 sm:px-6 flex items-center justify-between shrink-0 backdrop-blur-lg z-30 select-none"
+        <nav
+            className="shrink-0 z-40 border-t border-zinc-800 bg-zinc-900/95 backdrop-blur-lg pb-[max(0.35rem,env(safe-area-inset-bottom))] select-none"
             aria-label="Meeting Controls"
         >
+            <div className="flex h-[4.75rem] min-w-0 items-center gap-1 overflow-x-auto overscroll-x-contain px-2 [-ms-overflow-style:none] [scrollbar-width:none] sm:gap-2 sm:px-6 [&::-webkit-scrollbar]:hidden lg:overflow-visible lg:justify-between">
             {/* Left Controls: Audio & Video */}
-            <div className="flex items-center gap-1.5 sm:gap-2">
+            <div className="flex shrink-0 items-center gap-1 sm:gap-2">
                 {/* Audio (Mic) Toggle */}
                 <button
                     type="button"
                     onClick={onToggleMic}
                     disabled={!canPublish}
-                    className={`flex flex-col items-center justify-center min-w-[56px] sm:min-w-[64px] h-14 rounded-2xl transition-all ${
+                    className={`${studioDockBtn} ${
                         isMicEnabled
                             ? "hover:bg-zinc-800 text-zinc-300 hover:text-white"
                             : "bg-rose-500/15 hover:bg-rose-500/25 text-rose-500"
@@ -91,7 +98,7 @@ export const StudioControlBar: React.FC<StudioControlBarProps> = ({
                     <div className="relative p-1">
                         {isMicEnabled ? <Mic size={20} /> : <MicOff size={20} />}
                     </div>
-                    <span className="text-[10px] font-medium tracking-tight mt-0.5">
+                    <span className={studioDockLabelAlways}>
                         {isMicEnabled ? "Mute" : "Unmute"}
                     </span>
                 </button>
@@ -101,7 +108,7 @@ export const StudioControlBar: React.FC<StudioControlBarProps> = ({
                     type="button"
                     onClick={onToggleCam}
                     disabled={!canPublish}
-                    className={`flex flex-col items-center justify-center min-w-[56px] sm:min-w-[64px] h-14 rounded-2xl transition-all ${
+                    className={`${studioDockBtn} ${
                         isCamEnabled
                             ? "hover:bg-zinc-800 text-zinc-300 hover:text-white"
                             : "bg-rose-500/15 hover:bg-rose-500/25 text-rose-500"
@@ -111,19 +118,19 @@ export const StudioControlBar: React.FC<StudioControlBarProps> = ({
                     <div className="relative p-1">
                         {isCamEnabled ? <Video size={20} /> : <VideoOff size={20} />}
                     </div>
-                    <span className="text-[10px] font-medium tracking-tight mt-0.5">
+                    <span className={studioDockLabelAlways}>
                         {isCamEnabled ? "Stop Video" : "Start Video"}
                     </span>
                 </button>
             </div>
 
             {/* Center Controls: Screen Share, Layout View, Hand, Chat, Participants */}
-            <div className="flex items-center gap-1 sm:gap-2">
+            <div className="flex shrink-0 items-center gap-1 sm:gap-2">
                 {/* Screen Share (Presentation Mode) */}
                 <button
                     type="button"
                     onClick={onToggleScreenShare}
-                    className={`flex flex-col items-center justify-center min-w-[56px] sm:min-w-[68px] h-14 rounded-2xl transition-all ${
+                    className={`${studioDockBtn} sm:min-w-[4.25rem] ${
                         isScreenShareEnabled
                             ? "bg-emerald-600 text-white shadow-lg shadow-emerald-600/30"
                             : "hover:bg-zinc-800 text-emerald-400 hover:text-emerald-300"
@@ -133,7 +140,7 @@ export const StudioControlBar: React.FC<StudioControlBarProps> = ({
                     <div className="relative p-1">
                         {isScreenShareEnabled ? <MonitorOff size={20} /> : <ScreenShare size={20} />}
                     </div>
-                    <span className="text-[10px] font-medium tracking-tight mt-0.5">
+                    <span className={studioDockLabelDesktopOnly}>
                         {isScreenShareEnabled ? "Stop Share" : "Share"}
                     </span>
                 </button>
@@ -142,13 +149,13 @@ export const StudioControlBar: React.FC<StudioControlBarProps> = ({
                 <button
                     type="button"
                     onClick={onToggleViewMode}
-                    className="flex lg:hidden flex-col items-center justify-center min-w-[56px] sm:min-w-[64px] h-14 rounded-2xl text-zinc-400 hover:text-white hover:bg-zinc-800 transition-all"
+                    className={`${studioDockBtn} lg:hidden text-zinc-400 hover:text-white hover:bg-zinc-800`}
                     title={viewMode === "presentation" ? "Switch to Gallery Grid" : "Switch to Presentation"}
                 >
                     <div className="relative p-1">
                         {viewMode === "presentation" ? <LayoutGrid size={20} /> : <MonitorPlay size={20} />}
                     </div>
-                    <span className="text-[10px] font-medium tracking-tight mt-0.5">
+                    <span className={studioDockLabelDesktopOnly}>
                         {viewMode === "presentation" ? "Gallery" : "Present"}
                     </span>
                 </button>
@@ -157,7 +164,7 @@ export const StudioControlBar: React.FC<StudioControlBarProps> = ({
                 <button
                     type="button"
                     onClick={onToggleParticipants}
-                    className={`flex flex-col items-center justify-center min-w-[56px] sm:min-w-[68px] h-14 rounded-2xl transition-all relative ${
+                    className={`${studioDockBtn} sm:min-w-[4.25rem] relative ${
                         isParticipantsOpen
                             ? "bg-zinc-800 text-white border border-zinc-700/60 shadow-md"
                             : "text-zinc-400 hover:text-white hover:bg-zinc-800"
@@ -172,16 +179,14 @@ export const StudioControlBar: React.FC<StudioControlBarProps> = ({
                             </span>
                         )}
                     </div>
-                    <span className="text-[10px] font-medium tracking-tight mt-0.5">
-                        Attendees
-                    </span>
+                    <span className={studioDockLabelDesktopOnly}>Attendees</span>
                 </button>
 
                 {/* Chat (Message Channel) Toggle */}
                 <button
                     type="button"
                     onClick={onToggleChat}
-                    className={`flex flex-col items-center justify-center min-w-[56px] sm:min-w-[68px] h-14 rounded-2xl transition-all relative ${
+                    className={`${studioDockBtn} sm:min-w-[4.25rem] relative ${
                         isChatOpen
                             ? "bg-zinc-800 text-white border border-zinc-700/60 shadow-md"
                             : "text-zinc-400 hover:text-white hover:bg-zinc-800"
@@ -196,16 +201,14 @@ export const StudioControlBar: React.FC<StudioControlBarProps> = ({
                             </span>
                         )}
                     </div>
-                    <span className="text-[10px] font-medium tracking-tight mt-0.5">
-                        Chat
-                    </span>
+                    <span className={studioDockLabelDesktopOnly}>Chat</span>
                 </button>
 
                 {/* Raise Hand Toggle */}
                 <button
                     type="button"
                     onClick={onToggleHand}
-                    className={`flex flex-col items-center justify-center min-w-[56px] sm:min-w-[64px] h-14 rounded-2xl transition-all ${
+                    className={`${studioDockBtn} ${
                         isHandRaised
                             ? "bg-amber-500/20 text-amber-400 border border-amber-500/40 shadow-lg shadow-amber-500/10"
                             : "text-zinc-400 hover:text-white hover:bg-zinc-800"
@@ -215,24 +218,24 @@ export const StudioControlBar: React.FC<StudioControlBarProps> = ({
                     <div className="relative p-1">
                         <Hand size={20} className={isHandRaised ? "animate-bounce" : ""} />
                     </div>
-                    <span className="text-[10px] font-medium tracking-tight mt-0.5">
+                    <span className={studioDockLabelDesktopOnly}>
                         {isHandRaised ? "Hand Up" : "Hand"}
                     </span>
                 </button>
             </div>
 
             {/* Right Controls: Fullscreen & End/Leave */}
-            <div className="flex items-center gap-2">
+            <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
                 <button
                     type="button"
                     onClick={onToggleFullscreen}
-                    className="hidden sm:flex flex-col items-center justify-center min-w-[56px] h-14 rounded-2xl text-zinc-400 hover:text-white hover:bg-zinc-800 transition-all"
+                    className={`${studioDockBtn} hidden sm:flex text-zinc-400 hover:text-white hover:bg-zinc-800`}
                     title={isFullscreen ? "Exit Fullscreen" : "Fullscreen Studio"}
                 >
                     <div className="relative p-1">
                         {isFullscreen ? <Minimize size={20} /> : <Maximize size={20} />}
                     </div>
-                    <span className="text-[10px] font-medium tracking-tight mt-0.5">
+                    <span className={studioDockLabelDesktopOnly}>
                         {isFullscreen ? "Exit" : "Full"}
                     </span>
                 </button>
@@ -242,7 +245,7 @@ export const StudioControlBar: React.FC<StudioControlBarProps> = ({
                     <button
                         type="button"
                         onClick={onToggleRecording}
-                        className={`flex flex-col items-center justify-center min-w-[56px] h-14 rounded-2xl transition-all ${
+                        className={`${studioDockBtn} ${
                             isRecording
                                 ? "bg-rose-500/20 text-rose-500 border border-rose-500/40 shadow-lg shadow-rose-500/10"
                                 : "text-zinc-400 hover:text-white hover:bg-zinc-800"
@@ -252,7 +255,7 @@ export const StudioControlBar: React.FC<StudioControlBarProps> = ({
                         <div className="relative p-1">
                             <Circle size={20} className={isRecording ? "fill-rose-500 text-rose-500 animate-pulse" : ""} />
                         </div>
-                        <span className="text-[10px] font-medium tracking-tight mt-0.5">
+                        <span className={studioDockLabelDesktopOnly}>
                             {isRecording ? "Stop Rec" : "Record"}
                         </span>
                     </button>
@@ -262,7 +265,7 @@ export const StudioControlBar: React.FC<StudioControlBarProps> = ({
                 <button
                     type="button"
                     onClick={onEndOrLeave}
-                    className={`px-3.5 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 shadow-lg transition-all active:scale-95 ${
+                    className={`flex shrink-0 items-center gap-2 rounded-xl px-3 py-2.5 text-xs font-bold shadow-lg transition-all active:scale-95 sm:px-5 sm:text-sm ${
                         isHost
                             ? "bg-rose-600 hover:bg-rose-500 text-white shadow-rose-600/20"
                             : "bg-zinc-800 hover:bg-rose-600 hover:text-white text-zinc-300 border border-zinc-700/50"
@@ -271,6 +274,7 @@ export const StudioControlBar: React.FC<StudioControlBarProps> = ({
                     <PhoneOff size={16} />
                     <span className="font-semibold">{isHost ? "End" : "Leave"}</span>
                 </button>
+            </div>
             </div>
         </nav>
     );
