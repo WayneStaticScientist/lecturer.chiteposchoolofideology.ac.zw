@@ -13,6 +13,7 @@ import { toast } from "react-hot-toast";
 import { StudioHeader } from "./StudioHeader";
 import { StudioStage } from "./StudioStage";
 import { StudioControlBar } from "./StudioControlBar";
+import { STUDIO_DOCK_SPACER_CLASS } from "./studio-dock-layout";
 import { ChatChannel } from "./ChatChannel";
 import { ParticipantsPanel } from "./ParticipantsPanel";
 import { ConfirmModal } from "./ConfirmModal";
@@ -363,7 +364,7 @@ export const ZoomStudio: React.FC<ZoomStudioProps> = ({
     }, [isHost, scheduleId, room, router, courseId]);
 
     return (
-        <div className="flex flex-col h-screen w-screen bg-zinc-950 text-white overflow-hidden select-none">
+        <div className="flex h-[100dvh] max-h-[100dvh] w-full flex-col overflow-hidden bg-zinc-950 text-white select-none">
             {/* Top Zoom Header */}
             <StudioHeader
                 courseId={courseId}
@@ -407,6 +408,8 @@ export const ZoomStudio: React.FC<ZoomStudioProps> = ({
                     currentUserName={localParticipant.name}
                 />
             </div>
+
+            <div aria-hidden className={STUDIO_DOCK_SPACER_CLASS} />
 
             {/* Bottom Zoom Control Dock */}
             <StudioControlBar
