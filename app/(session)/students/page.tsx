@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Users, Loader2, Search, Trophy, Calendar, Clock } from "lucide-react";
+import Link from "next/link";
+import { Users, Loader2, Search, Trophy, Clock } from "lucide-react";
 import { getLecturerStudents } from "@/services/api";
 
 interface StudentMetric {
@@ -90,12 +91,13 @@ export default function StudentsMetricsPage() {
                   <th className="p-5 font-semibold text-slate-600">Average Score</th>
                   <th className="p-5 font-semibold text-slate-600">Current Grade</th>
                   <th className="p-5 font-semibold text-slate-600">Last Active</th>
+                  <th className="p-5 font-semibold text-slate-600 text-right">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredStudents.length === 0 ? (
                   <tr>
-                    <td colSpan={4} className="p-10 text-center text-slate-500">
+                    <td colSpan={5} className="p-10 text-center text-slate-500">
                       No students found.
                     </td>
                   </tr>
@@ -129,6 +131,14 @@ export default function StudentsMetricsPage() {
                                 hour: '2-digit', minute: '2-digit'
                             }) : 'Never'}
                           </div>
+                        </td>
+                        <td className="p-5 text-right">
+                          <Link
+                            href={`/students/${student._id}`}
+                            className="text-sm font-semibold text-primary hover:underline"
+                          >
+                            Attendance
+                          </Link>
                         </td>
                       </tr>
                     );

@@ -48,6 +48,22 @@ export const getLecturerStudents = async () => {
   return response.data;
 };
 
+export const getStudentAttendanceHeatmap = async (
+  studentId: string,
+  params?: { courseId?: string; from?: string; to?: string },
+) => {
+  const response = await api.get(
+    `/attendance/lecturer/students/${studentId}/heatmap`,
+    { params },
+  );
+  return response.data;
+};
+
+export const getLecturerCourses = async () => {
+  const response = await api.get('/courses/');
+  return response.data;
+};
+
 export const deleteQuiz = async (quizId: string) => {
   const response = await api.delete(`/topics/quizzes/${quizId}`);
   return response.data;

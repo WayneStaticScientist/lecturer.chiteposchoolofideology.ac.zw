@@ -23,6 +23,7 @@ export default function CourseLiveLessonsPage() {
   const [liveTitle, setLiveTitle] = useState("");
   const [liveSummary, setLiveSummary] = useState("");
   const [liveStartTime, setLiveStartTime] = useState("");
+  const [attendanceThreshold, setAttendanceThreshold] = useState("50");
   const [isSubmittingLive, setIsSubmittingLive] = useState(false);
 
   const fetchSchedules = async () => {
@@ -50,6 +51,7 @@ export default function CourseLiveLessonsPage() {
         title: liveTitle,
         summary: liveSummary,
         startTime: new Date(liveStartTime).toISOString(),
+        attendanceThresholdPercent: Number(attendanceThreshold) || 50,
       });
       toast.success("Live session scheduled");
       setIsLiveModalOpen(false);
@@ -123,6 +125,23 @@ export default function CourseLiveLessonsPage() {
                 onChange={(e) => setLiveStartTime(e.target.value)}
                 className={inputClass}
               />
+            </div>
+            <div>
+              <label className="mb-2 block text-sm font-semibold text-slate-700">
+                Attendance threshold (% of session watched)
+              </label>
+              <input
+                type="number"
+                min={1}
+                max={100}
+                value={attendanceThreshold}
+                onChange={(e) => setAttendanceThreshold(e.target.value)}
+                className={inputClass}
+              />
+              <p className="mt-1 text-xs text-slate-500">
+                Default 50%. Students who watch at least this share of the live
+                stream are marked present once (no duplicate logs).
+              </p>
             </div>
             <ModalActions
               onCancel={() => setIsLiveModalOpen(false)}
