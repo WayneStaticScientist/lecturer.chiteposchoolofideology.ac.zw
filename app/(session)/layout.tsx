@@ -25,7 +25,14 @@ export default function SessionLayout({
     const fetchUser = async () => {
       try {
         const res = await getLecturerDashboard();
-        if (res.user?.role !== "lecturer") {
+        const roles: string[] =
+          res.user?.roles?.length > 0
+            ? res.user.roles
+            : res.user?.role
+              ? [res.user.role]
+              : [];
+
+        if (!roles.includes("lecturer")) {
           router.push("/login");
           return;
         }

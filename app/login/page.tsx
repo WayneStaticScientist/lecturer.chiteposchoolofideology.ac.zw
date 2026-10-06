@@ -20,9 +20,17 @@ export default function LoginPage() {
     try {
       const res = await loginUser({ email, password });
 
-      // Verify the user is a lecturer from the login response
-      if (res.user?.role !== 'lecturer') {
-        setError('Access denied. This portal is for lecturers only.');
+      const roles: string[] =
+        res.user?.roles?.length > 0
+          ? res.user.roles
+          : res.user?.role
+            ? [res.user.role]
+            : [];
+
+      if (!roles.includes('lecturer')) {
+        setError(
+          'Access denied. This portal requires lecturer access. Ask an administrator to enable the lecturer permission on your account.',
+        );
         setLoading(false);
         return;
       }
